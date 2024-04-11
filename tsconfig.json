@@ -1,24 +1,24 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es6",                              // Specify ECMAScript target version
-    "module": "commonjs",                         // Specify module code generation
-    "lib": ["es6", "dom"],                        // Specify library files to be included in the compilation
-    "declaration": true,                          // Generate corresponding '.d.ts' file
-    "sourceMap": true,                            // Generates corresponding '.map' file
-    "outDir": "./lib",                            // Redirect output structure to the directory
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "./lib",
 
     /* Strict Type-Checking Options */
-    "strict": true,                               // Enable all strict type-checking options
+    "strict": true,
 
     /* Module Resolution Options */
-    "moduleResolution": "node",                   // Resolve modules using Node.js-style
-    "esModuleInterop": true,                      // Enables emit interoperability between CommonJS and ES Modules
-    "forceConsistentCasingInFileNames": true,     // Disallow inconsistently-cased references to the same file
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
 
     /* Advanced Options */
-    "skipLibCheck": true,                         // Skip type checking of all declaration files (*.d.ts)
-    "exclude": ["node_modules", "test", "examples"],  // Exclude directories from the compilation
-    "include": ["src/**/*.ts"]                    // Include files to be compiled
-  }
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "test", "examples"],
+  "include": ["src/**/*.ts"]
 }
