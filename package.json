@@ -1,0 +1,37 @@
+{
+  "name": "pushdown-automata",
+  "version": "0.0.0",
+  "description": "A library that allows you to create pushdown automata",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint 'src/**/*.ts'",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/aneshodza/pushdown-automata.git"
+  },
+  "keywords": [
+    "automata"
+  ],
+  "author": "aneshodza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aneshodza/pushdown-automata/issues"
+  },
+  "homepage": "https://github.com/aneshodza/pushdown-automata#readme",
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/jest": "^29.5.12",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
+    "eslint": "^8.57.0",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.6.0"
+  }
+}
