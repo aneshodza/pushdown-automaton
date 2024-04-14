@@ -1,3 +1,5 @@
+import TransitionFunction from "./TransitionFunction";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class State {
   name: string | null = null;
@@ -29,3 +31,4 @@ class State {
   }
 }
 
+export default State;

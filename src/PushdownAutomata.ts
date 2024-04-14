@@ -1,3 +1,6 @@
+import Stack from "./Stack";
+import State from "./State";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class PushdownAutomata {
   states: Array<State> | null = [];
@@ -84,16 +87,16 @@ class PushdownAutomata {
     return true;
   }
 
-  addZustand(state: State) {
+  addSate(state: State) {
     this.states!.push(state);
   }
 
-  setStartZustand(state: State) {
+  setStartSate(state: State) {
     this.startState = state;
     this.currentState = this.startState;
   }
 
-  addEndZustand(state: State) {
+  addEndState(state: State) {
     this.endStates.push(state);
   }
 
@@ -107,3 +110,5 @@ class PushdownAutomata {
     );
   }
 }
+
+export default PushdownAutomata;
