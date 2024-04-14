@@ -18,6 +18,12 @@ class State {
     });
   }
 
+  allEpisilonTransitions(): Array<TransitionFunction> {
+    return this.transitionFunctions.filter((transitionFunction) => {
+      return transitionFunction.input === "";
+    });
+  }
+
   findEpisilonTransitionfunction(stackPop: string) {
     return this.findTransitionfunction("", stackPop);
   }
