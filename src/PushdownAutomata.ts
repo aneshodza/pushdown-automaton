@@ -66,13 +66,19 @@ class PushdownAutomata {
         this.stack.last(),
       );
 
-    while (epsilonTransitionFunction) {
-      epsilonTransitionFunction.transition(this.stack, "");
-      this.currentState = epsilonTransitionFunction.nextState;
-      epsilonTransitionFunction = this.currentState!
-        .findEpisilonTransitionfunction(
-          this.stack.last(),
-        );
+    if (epsilonTransitionFunction === undefined) {
+      return true;
+    }
+
+    epsilonTransitionFunction.transition(this.stack, "");
+    this.currentState = epsilonTransitionFunction.nextState;
+    epsilonTransitionFunction = this.currentState!
+      .findEpisilonTransitionfunction(
+        this.stack.last(),
+      );
+
+    if (this.currentState!.allEpisilonTransitions().length > 0) {
+      throw new Error("This is not a deterministic pushdown automata!");
     }
 
     return true;
