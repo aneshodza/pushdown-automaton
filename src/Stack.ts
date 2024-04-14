@@ -11,6 +11,9 @@ class Stack {
   }
 
   pop() {
+    if (this.stackValues.length === 0) {
+      throw new Error("Stack is empty");
+    }
     return this.stackValues.pop();
   }
 

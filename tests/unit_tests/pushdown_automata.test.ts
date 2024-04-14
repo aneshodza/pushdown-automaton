@@ -1,7 +1,7 @@
 import PushdownAutomata from "../../src/PushdownAutomata";
 
 let automata: PushdownAutomata;
-beforeAll(() => {
+beforeEach(() => {
   automata = new PushdownAutomata("test");
 });
 
