@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint 'src/**/*.ts'",
-    "prepare": "husky"
+    "fix-lint": "eslint 'src/**/*.ts' --fix",
+    "prepare": "husky",
+    "develop": "npx tsc --watch --outDir out/"
   },
   "repository": {
     "type": "git",
