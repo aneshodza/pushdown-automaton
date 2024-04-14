@@ -21,7 +21,7 @@ test("Pops a value off the stack", () => {
 
 test("Pop returns the popped value", () => {
   expect(stack.pop()).toEqual("$");
-})
+});
 
 test("Pop on empty stack throws", () => {
   stack.pop();
@@ -35,6 +35,11 @@ test("Returns the last value of the stack", () => {
 
 test("Checks if the last value matches the stack", () => {
   expect(stack.checkForValue("$")).toBeTruthy();
+});
+
+test("Last on empty stack throws", () => {
+  stack.pop();
+  expect(() => stack.last()).toThrow();
 });
 
 test("Creates a stack clone that doesn't allow mutation", () => {
