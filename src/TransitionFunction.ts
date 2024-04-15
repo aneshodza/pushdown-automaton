@@ -30,7 +30,7 @@ class TransitionFunction {
     }
 
     stack.pop();
-    this.stackPush!.reverse().forEach((value) => {
+    this.stackPush!.forEach((value) => {
       stack.push(value);
     });
     return this.nextState;
