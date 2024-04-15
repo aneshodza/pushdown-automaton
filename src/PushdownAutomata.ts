@@ -49,13 +49,11 @@ class PushdownAutomata {
     const currentToken = this.inputWord.charAt(0);
     this.inputWord = this.inputWord.slice(1);
 
-    // Find the transition function that matches the current token
     const transitionFunction = this.currentState!.findTransitionFunction(
       currentToken,
       this.stack.last(),
     );
 
-    // Check if a transition function was found and then proceed with the state transition
     if (transitionFunction === undefined) {
       console.log("No transition found!");
       return false;
