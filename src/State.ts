@@ -10,11 +10,11 @@ class State {
     this.transitionFunctions = [];
   }
 
-  addUebergangsfunktion(uebergangsfunktion: TransitionFunction) {
-    this.transitionFunctions.push(uebergangsfunktion);
+  addTransitionFunction(transitionFunction: TransitionFunction) {
+    this.transitionFunctions.push(transitionFunction);
   }
 
-  findTransitionfunction(input: string, stackPop: string) {
+  findTransitionFunction(input: string, stackPop: string) {
     return this.transitionFunctions.find((transitionFunction) => {
       return transitionFunction.checkForTransition(input, stackPop);
     });
@@ -27,7 +27,7 @@ class State {
   }
 
   findEpisilonTransitionfunction(stackPop: string) {
-    return this.findTransitionfunction("", stackPop);
+    return this.findTransitionFunction("", stackPop);
   }
 }
 

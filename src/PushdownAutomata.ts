@@ -50,7 +50,7 @@ class PushdownAutomata {
     this.inputWord = this.inputWord.slice(1);
 
     // Find the transition function that matches the current token
-    const transitionFunction = this.currentState!.findTransitionfunction(
+    const transitionFunction = this.currentState!.findTransitionFunction(
       currentToken,
       this.stack.last(),
     );

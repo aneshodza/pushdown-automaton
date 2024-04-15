@@ -9,13 +9,13 @@ class TransitionFunction {
   stackPush: Array<string> | null = null;
 
   constructor(
-    eingabe: string,
-    nextZustand: State,
+    input: string,
+    nextState: State,
     stackPop: string,
     stackPush: Array<string>,
   ) {
-    this.input = eingabe;
-    this.nextState = nextZustand;
+    this.input = input;
+    this.nextState = nextState;
     this.stackPop = stackPop;
     this.stackPush = stackPush;
   }
