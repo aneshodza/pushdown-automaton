@@ -1,3 +1,5 @@
+import TransitionFunction from "./TransitionFunction";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class State {
   name: string | null = null;
@@ -8,24 +10,25 @@ class State {
     this.transitionFunctions = [];
   }
 
-  addUebergangsfunktion(uebergangsfunktion: TransitionFunction) {
-    this.transitionFunctions.push(uebergangsfunktion);
+  addTransitionFunction(transitionFunction: TransitionFunction) {
+    this.transitionFunctions.push(transitionFunction);
   }
 
-  findTransitionfunction(input: string, stackPop: string) {
+  findTransitionFunction(input: string, stackPop: string) {
     return this.transitionFunctions.find((transitionFunction) => {
       return transitionFunction.checkForTransition(input, stackPop);
     });
   }
 
-  allEpisilonTransitions(): Array<TransitionFunction> {
+  allEpsilonTransitionFunctions(): Array<TransitionFunction> {
     return this.transitionFunctions.filter((transitionFunction) => {
       return transitionFunction.input === "";
     });
   }
 
-  findEpisilonTransitionfunction(stackPop: string) {
-    return this.findTransitionfunction("", stackPop);
+  findEpsilonTransition(stackPop: string) {
+    return this.findTransitionFunction("", stackPop);
   }
 }
 
+export default State;

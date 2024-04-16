@@ -11,6 +11,9 @@ class Stack {
   }
 
   pop() {
+    if (this.stackValues.length === 0) {
+      throw new Error("Stack is empty");
+    }
     return this.stackValues.pop();
   }
 
@@ -19,6 +22,9 @@ class Stack {
   }
 
   last(): string {
+    if (this.stackValues.length === 0) {
+      throw new Error("Stack is empty");
+    }
     return this.stackValues[this.stackValues.length - 1];
   }
 
@@ -27,3 +33,4 @@ class Stack {
   }
 }
 
+export default Stack;

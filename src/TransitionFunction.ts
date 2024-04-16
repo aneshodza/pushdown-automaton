@@ -1,3 +1,6 @@
+import Stack from "./Stack";
+import State from "./State";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class TransitionFunction {
   input: string | null = null;
@@ -6,13 +9,13 @@ class TransitionFunction {
   stackPush: Array<string> | null = null;
 
   constructor(
-    eingabe: string,
-    nextZustand: State,
+    input: string,
+    nextState: State,
     stackPop: string,
     stackPush: Array<string>,
   ) {
-    this.input = eingabe;
-    this.nextState = nextZustand;
+    this.input = input;
+    this.nextState = nextState;
     this.stackPop = stackPop;
     this.stackPush = stackPush;
   }
@@ -27,7 +30,7 @@ class TransitionFunction {
     }
 
     stack.pop();
-    this.stackPush!.reverse().forEach((value) => {
+    this.stackPush!.forEach((value) => {
       stack.push(value);
     });
     return this.nextState;
@@ -40,3 +43,4 @@ class TransitionFunction {
   }
 }
 
+export default TransitionFunction;
