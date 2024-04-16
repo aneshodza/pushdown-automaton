@@ -1,15 +1,15 @@
 import State from "../../src/State";
-import TransitionFunction from "../../src/TransitionFunction";
+import Transition from "../../src/TransitionFunction";
 
 let state: State;
 let otherState: State;
-let transitionFunction: TransitionFunction;
-let epsilonTransitionFunction: TransitionFunction;
+let transitionFunction: Transition;
+let epsilonTransitionFunction: Transition;
 beforeEach(() => {
   state = new State("q0");
   otherState = new State("q1");
-  transitionFunction = new TransitionFunction("a", otherState, "b", ["c"]);
-  epsilonTransitionFunction = new TransitionFunction("", otherState, "b", [
+  transitionFunction = new Transition("a", otherState, "b", ["c"]);
+  epsilonTransitionFunction = new Transition("", otherState, "b", [
     "c",
   ]);
 });
@@ -31,17 +31,17 @@ test("Finds a transition function by input and stackPop", () => {
 test("Gets all epsilon transitions", () => {
   state.addTransitionFunction(epsilonTransitionFunction);
   state.addTransitionFunction(transitionFunction);
-  expect(state.allEpisilonTransitions()).toContain(epsilonTransitionFunction);
+  expect(state.allEpsilonTransitionFunctions()).toContain(epsilonTransitionFunction);
 });
 
 test("Gives empty array if no epsilon transitions", () => {
   state.addTransitionFunction(transitionFunction);
-  expect(state.allEpisilonTransitions()).toEqual([]);
+  expect(state.allEpsilonTransitionFunctions()).toEqual([]);
 });
 
 test("Finds an epsilon transition function by stackPop", () => {
   state.addTransitionFunction(epsilonTransitionFunction);
-  expect(state.findEpisilonTransitionfunction("b")).toBe(
+  expect(state.findEpsilonTransition("b")).toBe(
     epsilonTransitionFunction,
   );
 });

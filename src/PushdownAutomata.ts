@@ -18,71 +18,82 @@ class PushdownAutomata {
     this.delay = delay;
   }
 
-  run(): boolean {
+  run(): TerminationMessage {
     while (this.inputWord.length > 0) {
-      const success = this.step();
+      const returnValue = this.step();
 
       if (this.delay === 0) {
-        if (!success) {
-          console.info("Went to trash state");
-          return false;
+        if (!returnValue.sucessful) {
+          return returnValue;
         }
       } else {
         setTimeout(() => {
-          if (!success) {
-            console.info("Went to trash state");
-            return;
+          if (!returnValue.sucessful) {
+            return returnValue;
           }
         }, this.delay);
       }
     }
-    console.info("Terminated");
 
     if (this.endStates.includes(this.currentState!)) {
-      console.info("Word accepted");
-      return true;
+      return {
+        reason: "Word accepted",
+        sucessful: true,
+        code: 0,
+      };
     }
-    return false;
+    return {
+      reason: "Didn't end in an end state",
+      sucessful: false,
+      code: 1,
+    };
   }
 
-  step(): boolean {
+  step(): TerminationMessage {
     const currentToken = this.inputWord.charAt(0);
     this.inputWord = this.inputWord.slice(1);
 
-    const transitionFunction = this.currentState!.findTransitionFunction(
+    const transition = this.currentState!.findTransitionFunction(
       currentToken,
       this.stack.last(),
     );
 
-    if (transitionFunction === undefined) {
-      console.log("No transition found!");
-      return false;
+    if (transition === undefined) {
+      return {
+        reason: "No transition found",
+        sucessful: false,
+        code: 2,
+      };
     }
 
-    transitionFunction.transition(this.stack, currentToken);
-    this.currentState = transitionFunction.nextState;
+    transition.transition(this.stack, currentToken);
+    this.currentState = transition.nextState;
 
-    let epsilonTransitionFunction = this.currentState!
-      .findEpisilonTransitionfunction(
+    const epsilonTransition = this.currentState!
+      .findEpsilonTransition(
         this.stack.last(),
       );
 
-    if (epsilonTransitionFunction === undefined) {
-      return true;
+    if (epsilonTransition === undefined) {
+      return {
+        reason: "No epsilon transition found",
+        sucessful: true,
+        code: 0,
+      };
     }
 
-    epsilonTransitionFunction.transition(this.stack, "");
-    this.currentState = epsilonTransitionFunction.nextState;
-    epsilonTransitionFunction = this.currentState!
-      .findEpisilonTransitionfunction(
-        this.stack.last(),
-      );
+    epsilonTransition.transition(this.stack, "");
+    this.currentState = epsilonTransition.nextState;
 
-    if (this.currentState!.allEpisilonTransitions().length > 0) {
+    if (this.currentState!.allEpsilonTransitionFunctions().length > 0) {
       throw new Error("This is not a deterministic pushdown automata!");
     }
 
-    return true;
+    return {
+      reason: "Ran epsilon transition",
+      sucessful: true,
+      code: 0,
+    };
   }
 
   addSate(state: State) {

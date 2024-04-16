@@ -20,13 +20,13 @@ class State {
     });
   }
 
-  allEpisilonTransitions(): Array<TransitionFunction> {
+  allEpsilonTransitionFunctions(): Array<TransitionFunction> {
     return this.transitionFunctions.filter((transitionFunction) => {
       return transitionFunction.input === "";
     });
   }
 
-  findEpisilonTransitionfunction(stackPop: string) {
+  findEpsilonTransition(stackPop: string) {
     return this.findTransitionFunction("", stackPop);
   }
 }

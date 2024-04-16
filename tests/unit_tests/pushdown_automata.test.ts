@@ -1,16 +1,16 @@
 import PushdownAutomata from "../../src/PushdownAutomata";
 import State from "../../src/State";
-import TransitionFunction from "../../src/TransitionFunction";
+import Transition from "../../src/TransitionFunction";
 
 let automata: PushdownAutomata;
 let oneState: State;
 let otherState: State;
-let transitionFunction: TransitionFunction;
+let transitionFunction: Transition;
 beforeEach(() => {
   automata = new PushdownAutomata("test");
   oneState = new State("q0");
   otherState = new State("q1");
-  transitionFunction = new TransitionFunction("t", otherState, "$", ["c", "d"]);
+  transitionFunction = new Transition("t", otherState, "$", ["c", "d"]);
 
   oneState.addTransitionFunction(transitionFunction);
 
@@ -27,8 +27,11 @@ test("Takes in the correct input", () => {
 });
 
 test("Trantisions correctly", () => {
-  automata.step();
-
+  expect(automata.step()).toStrictEqual({
+    reason: "No epsilon transition found",
+    sucessful: true,
+    code: 0,
+  });
   expect(automata.currentState).toBe(otherState);
 });
 
@@ -36,3 +39,26 @@ test("Mutates the stack correctly", () => {
   automata.step();
   expect(automata.stack.stackValues).toStrictEqual(["c", "d"]);
 });
+
+test("Doesn't do anything if the transition isn't found", () => {
+  automata.inputWord = "no_test";
+  expect(automata.step()).toStrictEqual({
+    reason: "No transition found",
+    sucessful: false,
+    code: 2,
+  });
+  expect(automata.currentState).toBe(oneState);
+});
+
+test("Runs epsilon transitions correctly", () => {
+  let epsilonTransition = new Transition("", oneState, "d", ["c", "d"]);
+  otherState.addTransitionFunction(epsilonTransition);
+
+  automata.inputWord = "test";
+  expect(automata.step()).toStrictEqual({
+    reason: "Ran epsilon transition",
+    sucessful: true,
+    code: 0,
+  });
+  expect(automata.currentState).toBe(oneState);
+})
