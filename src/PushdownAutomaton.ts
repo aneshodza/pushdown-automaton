@@ -2,14 +2,14 @@ import Stack from "./Stack";
 import State from "./State";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class PushdownAutomata {
+class PushdownAutomaton {
   stack: Stack = new Stack();
   startState: State | null = null;
   endStates: Array<State> = [];
 
   currentState: State | null = null;
   inputWord: string = "";
-  operation: ((automata: PushdownAutomata) => void) | null = null;
+  operation: ((automata: PushdownAutomaton) => void) | null = null;
 
   constructor(inputWord: string) {
     this.inputWord = inputWord;
@@ -106,9 +106,9 @@ class PushdownAutomata {
     );
   }
 
-  addOperation(operation: ((automata: PushdownAutomata) => void)) {
+  addOperation(operation: ((automata: PushdownAutomaton) => void)) {
     this.operation = operation;
   }
 }
 
-export default PushdownAutomata;
+export default PushdownAutomaton;
