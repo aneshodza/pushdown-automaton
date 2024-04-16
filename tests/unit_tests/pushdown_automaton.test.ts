@@ -1,13 +1,13 @@
-import PushdownAutomata from "../../src/PushdownAutomata";
+import PushdownAutomaton from "../../src/PushdownAutomaton";
 import State from "../../src/State";
 import Transition from "../../src/TransitionFunction";
 
-let automata: PushdownAutomata;
+let automata: PushdownAutomaton;
 let oneState: State;
 let otherState: State;
 let transitionFunction: Transition;
 beforeEach(() => {
-  automata = new PushdownAutomata("test");
+  automata = new PushdownAutomaton("test");
   oneState = new State("q0");
   otherState = new State("q1");
   transitionFunction = new Transition("t", otherState, "$", ["c", "d"]);
