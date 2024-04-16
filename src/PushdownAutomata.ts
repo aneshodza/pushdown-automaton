@@ -3,36 +3,27 @@ import State from "./State";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class PushdownAutomata {
-  states: Array<State> | null = [];
   stack: Stack = new Stack();
   startState: State | null = null;
   endStates: Array<State> = [];
 
   currentState: State | null = null;
   inputWord: string = "";
+  operation: ((automata: PushdownAutomata) => void) | null = null;
 
-  delay: number = 0;
-
-  constructor(inputWord: string, delay: number = 0) {
+  constructor(inputWord: string) {
     this.inputWord = inputWord;
-    this.delay = delay;
   }
 
   run(): TerminationMessage {
     while (this.inputWord.length > 0) {
       const returnValue = this.step();
 
-      if (this.delay === 0) {
-        if (!returnValue.sucessful) {
-          return returnValue;
-        }
-      } else {
-        setTimeout(() => {
-          if (!returnValue.sucessful) {
-            return returnValue;
-          }
-        }, this.delay);
+      if (!returnValue.sucessful) {
+        return returnValue;
       }
+
+      this.operation?.call(this, this);
     }
 
     if (this.endStates.includes(this.currentState!)) {
@@ -96,10 +87,6 @@ class PushdownAutomata {
     };
   }
 
-  addSate(state: State) {
-    this.states!.push(state);
-  }
-
   setStartSate(state: State) {
     this.startState = state;
     this.currentState = this.startState;
@@ -112,11 +99,15 @@ class PushdownAutomata {
   snapshot() {
     console.log(
       `Snapshot: \n` +
-      `Current node: ${this.currentState?.name} \n\n` +
+      `Current node: ${this.currentState!.name} \n\n` +
       `Stack: \n` +
       `${this.stack.stackClone().reverse().join("\n")}\n\n` +
       `Ugly stack [${this.stack.stackClone().reverse().join(", ")}]`,
     );
+  }
+
+  addOperation(operation: ((automata: PushdownAutomata) => void)) {
+    this.operation = operation;
   }
 }
 
