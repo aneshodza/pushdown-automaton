@@ -1,6 +1,9 @@
+/**
+ * Defines the structure of a termination message from a run or step in a pushdown automaton.
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface TerminationMessage {
   reason: string;
-  sucessful: boolean;
+  successful: boolean;
   code: number;
 }
