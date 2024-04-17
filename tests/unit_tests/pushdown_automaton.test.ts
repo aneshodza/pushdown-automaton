@@ -29,7 +29,7 @@ test("Takes in the correct input", () => {
 test("Trantisions correctly", () => {
   expect(automata.step()).toStrictEqual({
     reason: "No epsilon transition found",
-    sucessful: true,
+    successful: true,
     code: 0,
   });
   expect(automata.currentState).toBe(otherState);
@@ -44,7 +44,7 @@ test("Doesn't do anything if the transition isn't found", () => {
   automata.inputWord = "no_test";
   expect(automata.step()).toStrictEqual({
     reason: "No transition found",
-    sucessful: false,
+    successful: false,
     code: 2,
   });
   expect(automata.currentState).toBe(oneState);
@@ -57,7 +57,7 @@ test("Runs epsilon transitions correctly", () => {
   automata.inputWord = "test";
   expect(automata.step()).toStrictEqual({
     reason: "Ran epsilon transition",
-    sucessful: true,
+    successful: true,
     code: 0,
   });
   expect(automata.currentState).toBe(oneState);
@@ -77,7 +77,7 @@ test("Correctly handles the whole word", () => {
 
   expect(automata.run()).toStrictEqual({
     reason: "Word accepted",
-    sucessful: true,
+    successful: true,
     code: 0,
   });
 });
@@ -93,7 +93,7 @@ test("Corecctly realises if the word doesn't end in valid state", () => {
 
   expect(automata.run()).toStrictEqual({
     reason: "Didn't end in an end state",
-    sucessful: false,
+    successful: false,
     code: 1,
   });
 });
@@ -107,7 +107,7 @@ test("If it doesn't find a transition", () => {
 
   expect(automata.run()).toStrictEqual({
     reason: "No transition found",
-    sucessful: false,
+    successful: false,
     code: 2,
   });
 });
