@@ -1,1 +1,76 @@
-# Pushdown automata
+# Pushdown Automaton
+This package allows the user to create **deterministic** pushdown automata. If you need an explanation for what that is, you're in the wrong place.  
+Maybe start by reading the [Wikipedia article](https://en.wikipedia.org/wiki/Pushdown_automaton).
+
+---
+**⚠️  ATTENTION  ⚠️**  
+The Pushdown Automaton package currently only supports [deterministic automata](https://en.wikipedia.org/wiki/Deterministic_automaton). If there are **two consecutive epsilon-transitions** it throws an error. It currently does not catch any other forms of non-determinism.
+
+---
+
+## Usage
+Creating a pushdown automaton involves following steps:
+1. Creating the automaton instance
+2. Creating all the states
+3. Setting start and all end states
+
+```javascript
+/*
+ * 1. Instantiate the pushdown automaton with the input word
+ */
+let automaton: PushdownAutomaton;
+automaton = new PushdownAutomaton("test");
+
+/*
+ * 2. Instantiate states and give them names
+ */
+let oneState: State;
+oneState = new State("q0");
+let otherState: State;
+otherState = new State("q1");
+
+/* 
+ * 3. Instantiate transitions
+ * First parameter is the token to be consumed
+ * The second parameter is the state where the transition leads to
+ * The third parameter shows the token to be popped off the stack
+ * The fourth parameter is an array of things that will be pushed onto the stack
+ */
+let transitionFunction: Transition;
+transitionFunction = new Transition("t", otherState, "$", ["c", "d"]);
+
+/*
+ * 4. Add the transition to it's origin
+ */
+oneState.addTransitionFunction(transitionFunction);
+
+/*
+ * 5. Set start state and add end state
+ */
+automaton.setStartSate(oneState);
+automaton.addEndState(otherState);
+
+/*
+ * 6. Run the automaton and check it's return value
+ */
+let successful: boolean;
+successful = automaton.run();
+```
+
+#### Return values of `run()`
+The `run()` Method makes use of the `TerminationMessage` interface, which looks as follows:
+```javascript
+interface TerminationMessage {
+  reason: string;
+  successful: boolean;
+  code: number;
+}
+```
+It holds a message, if it was sucessful and the return code. Following codes are possible:
+
+| Code     | Meaning                                                              |
+|:--------:|:---------------------------------------------------------------------|
+|0         |Everything went okay. The machine terminated in a valid end state     |
+|1         |The automaton didn't terminate in a valid end state                   |
+|2         |The automaton didn't find a valid transition, so went to a sink state |
+|Exception |The automaton isn't deterministic                                     |
