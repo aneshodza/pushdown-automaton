@@ -1,0 +1,42 @@
+name: Check Version Bump
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-version-bump:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Checkout base branch
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.base_ref }}
+        path: base
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' # Use the Node.js version that matches your project requirements
+
+    - name: Check if version in package.json has been updated
+      run: |
+        # Install jq to parse JSON
+        sudo apt-get install jq
+        
+        # Get version numbers from package.json in PR and the base branch
+        PR_VERSION=$(jq -r '.version' package.json)
+        BASE_VERSION=$(jq -r '.version' base/package.json)
+        
+        # Compare versions
+        if [ "$PR_VERSION" = "$BASE_VERSION" ]; then
+          echo "Version number must be updated in package.json"
+          exit 1
+        else
+          echo "Version number has been updated."
+        fi
