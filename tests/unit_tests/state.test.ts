@@ -28,10 +28,16 @@ test("Finds a transition function by input and stackPop", () => {
   expect(state.findTransitionFunction("a", "b")).toBe(transitionFunction);
 });
 
+test("Returns undefined if no transition function is found", () => {
+  expect(state.findTransitionFunction("a", "b")).toBeUndefined();
+});
+
 test("Gets all epsilon transitions", () => {
   state.addTransitionFunction(epsilonTransitionFunction);
   state.addTransitionFunction(transitionFunction);
-  expect(state.allEpsilonTransitionFunctions()).toContain(epsilonTransitionFunction);
+  expect(state.allEpsilonTransitionFunctions()).toContain(
+    epsilonTransitionFunction,
+  );
 });
 
 test("Gives empty array if no epsilon transitions", () => {
@@ -44,4 +50,24 @@ test("Finds an epsilon transition function by stackPop", () => {
   expect(state.findEpsilonTransition("b")).toBe(
     epsilonTransitionFunction,
   );
+});
+
+test("Finds all possible transition functions by input and stackPop", () => {
+  state.addTransitionFunction(transitionFunction);
+  expect(state.allTransitionFunctions("a", "b")).toContain(
+    transitionFunction,
+  );
+});
+
+test("Gives empty array if no transition functions are found", () => {
+  expect(state.allTransitionFunctions("a", "b")).toEqual([]);
+});
+
+test("Gives multiple transition functions if they exist", () => {
+  state.addTransitionFunction(transitionFunction);
+  state.addTransitionFunction(transitionFunction);
+  expect(state.allTransitionFunctions("a", "b")).toStrictEqual([
+    transitionFunction,
+    transitionFunction,
+  ]);
 });

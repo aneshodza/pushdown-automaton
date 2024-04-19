@@ -4,7 +4,11 @@ Maybe start by reading the [Wikipedia article](https://en.wikipedia.org/wiki/Pus
 
 ---
 **⚠️  ATTENTION  ⚠️**  
-The Pushdown Automaton package currently only supports [deterministic automata](https://en.wikipedia.org/wiki/Deterministic_automaton). If there are **two consecutive epsilon-transitions** it throws an error. It currently does not catch any other forms of non-determinism.
+The Pushdown Automaton package currently only supports [deterministic automata](https://en.wikipedia.org/wiki/Deterministic_automaton). It currently checks following things:
+- Two consecutive epsilon transitions
+- Two matching transitions
+
+It only checks for these two things on the node it's currently on (while being in the `run()`) so if for example node `q1` is not deterministic but the `run()` function doesn't reach `q1` it won't throw.
 
 ---
 
