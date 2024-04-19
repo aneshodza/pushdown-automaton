@@ -144,3 +144,11 @@ test("Adds an operation and executes it", () => {
   automata.run();
   expect(operation).toHaveBeenCalled();
 });
+
+test("Throws an exception if it finds two matching transitions", () => {
+  let transition2 = new Transition("t", otherState, "$", ["c", "d"]);
+  oneState.addTransitionFunction(transition2);
+  expect(() => automata.run()).toThrow(
+    "This is not a deterministic pushdown automata!",
+  );
+});

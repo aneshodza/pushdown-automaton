@@ -35,7 +35,20 @@ class State {
     input: string,
     stackPop: string,
   ): TransitionFunction | undefined {
-    return this.transitionFunctions.find((transitionFunction) => {
+    return this.allTransitionFunctions(input, stackPop)[0];
+  }
+
+  /**
+   * Finds all matching transitions based on input character and stack top.
+   * @param {string} input - The input character.
+   * @param {string} stackPop - The character at the top of the stack to be matched.
+   * @returns {Array<TransitionFunction>} An array of all matching transition functions.
+   */
+  allTransitionFunctions(
+    input: string,
+    stackPop: string,
+  ): Array<TransitionFunction> {
+    return this.transitionFunctions.filter((transitionFunction) => {
       return transitionFunction.checkForTransition(input, stackPop);
     });
   }

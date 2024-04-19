@@ -59,6 +59,13 @@ class PushdownAutomaton {
     const currentToken = this.inputWord.charAt(0);
     this.inputWord = this.inputWord.slice(1);
 
+    if (
+      this.currentState!.allTransitionFunctions(currentToken, this.stack.last())
+        .length > 1
+    ) {
+      throw new Error("This is not a deterministic pushdown automata!");
+    }
+
     const transition = this.currentState!.findTransitionFunction(
       currentToken,
       this.stack.last(),
