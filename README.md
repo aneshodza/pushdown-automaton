@@ -20,6 +20,11 @@ Creating a pushdown automaton involves following steps:
 
 ```javascript
 /*
+ * 0. Import everything you need
+ */
+import { PushdownAutomaton, State, TransitionFunction } from 'pushdown-automaton';
+
+/*
  * 1. Instantiate the pushdown automaton with the input word
  */
 let automaton: PushdownAutomaton;
@@ -78,3 +83,12 @@ It holds a message, if it was sucessful and the return code. Following codes are
 |1         |The automaton didn't terminate in a valid end state                   |
 |2         |The automaton didn't find a valid transition, so went to a sink state |
 |Exception |The automaton isn't deterministic                                     |
+
+
+## Other links
+- [Changelog](./docs/CHANGELOG.md)
+- [Contributing](./docs/CONTRIBUTING.md)
+- [Bugs](./docs/BUGS.md)
+
+#### Credits
+This library was written and published by [Anes Hodza](aneshodza.ch)
