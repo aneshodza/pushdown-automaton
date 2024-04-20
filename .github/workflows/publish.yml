@@ -3,7 +3,7 @@ name: Publish to npm registry
 on:
   push:
     tags:
-      - '*'
+      - '**'
 
 jobs:
   check-tag-version:
