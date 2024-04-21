@@ -6,7 +6,7 @@
     "lib": ["es6", "dom"],
     "declaration": true,
     "sourceMap": true,
-    "outDir": "./lib",
+    "outDir": "./out",
 
     /* Strict Type-Checking Options */
     "strict": true,

@@ -17,7 +17,7 @@
     "url": "git+ssh://git@github.com/aneshodza/pushdown-automaton.git"
   },
   "keywords": [
-    "automata"
+    "automata", "pushdown automata", "deterministic pushdown automata"
   ],
   "files": [
     "out/**/*"
