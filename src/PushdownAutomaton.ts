@@ -18,8 +18,10 @@ class PushdownAutomaton {
    * Creates an instance of `PushdownAutomaton`.
    * @param {string} inputWord - The input word to be processed by the automaton.
    */
-  constructor(inputWord: string) {
+  constructor(inputWord: string, defaultStackTocken: string = "$") {
     this.inputWord = inputWord;
+    this.stack.pop();
+    this.stack.push(defaultStackTocken);
   }
 
   /**

@@ -26,9 +26,11 @@ import { PushdownAutomaton, State, TransitionFunction } from 'pushdown-automaton
 
 /*
  * 1. Instantiate the pushdown automaton with the input word
+ * Provide a 2nd parameter to define the initial stack token.
+ * Normally that's a dollar sign, but here I define it as %
  */
 let automaton: PushdownAutomaton;
-automaton = new PushdownAutomaton("test");
+automaton = new PushdownAutomaton("test", "%");
 
 /*
  * 2. Instantiate states and give them names
@@ -89,6 +91,7 @@ It holds a message, if it was sucessful and the return code. Following codes are
 - [Changelog](./docs/CHANGELOG.md)
 - [Contributing](./docs/CONTRIBUTING.md)
 - [Bugs](./docs/BUGS.md)
+- [Feature requests](./docs/FEATURE_REQUESTS.md)
 
 #### Credits
 This library was written and published by [Anes Hodza](aneshodza.ch)
