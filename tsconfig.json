@@ -2,8 +2,8 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "es6",
-    "module": "ESNext",
-    "lib": ["es6", "dom"],
+    "module": "CommonJS",
+    "lib": ["ES5", "DOM", "ES2015.Promise"],
     "declaration": true,
     "sourceMap": true,
     "outDir": "./out",

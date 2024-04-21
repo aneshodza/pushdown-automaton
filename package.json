@@ -4,6 +4,7 @@
   "description": "A library that allows you to create a deterministic pushdown automaton",
   "main": "out/index.js",
   "types": "out/index.d.ts",
+  "type": "comonjs",
   "scripts": {
     "build": "tsc --outDir out/",
     "test": "jest --coverage",
@@ -28,7 +29,6 @@
     "url": "https://github.com/aneshodza/pushdown-automaton/issues"
   },
   "homepage": "https://github.com/aneshodza/pushdown-automaton#readme",
-  "type": "module",
   "devDependencies": {
     "@eslint/js": "^9.0.0",
     "@types/jest": "^29.5.12",
