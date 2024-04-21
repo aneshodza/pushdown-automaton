@@ -1,5 +1,6 @@
 import Stack from "./Stack";
 import State from "./State";
+import TerminationMessage from "./TerminationMessage";
 
 /**
  * Represents a pushdown automaton, a type of automaton that uses a stack to manage its operations.
