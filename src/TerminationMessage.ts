@@ -7,3 +7,5 @@ interface TerminationMessage {
   successful: boolean;
   code: number;
 }
+
+export default TerminationMessage;
