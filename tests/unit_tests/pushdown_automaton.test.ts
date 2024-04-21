@@ -143,6 +143,7 @@ test("Adds an operation and executes it", () => {
   automata.addOperation(operation);
   automata.run();
   expect(operation).toHaveBeenCalled();
+  expect(operation).toHaveBeenCalledWith(automata);
 });
 
 test("Throws an exception if it finds two matching transitions", () => {
@@ -152,3 +153,8 @@ test("Throws an exception if it finds two matching transitions", () => {
     "This is not a deterministic pushdown automata!",
   );
 });
+
+test("Allows the user to define a default stack token", () => {
+  let automata = new PushdownAutomaton("test", "default");
+  expect(automata.stack.stackValues).toStrictEqual(["default"]);
+})
