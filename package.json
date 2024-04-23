@@ -5,7 +5,10 @@
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "scripts": {
-    "build": "tsc --outDir out/",
+    "build": "npm run build:compile && npm run build:fix",
+    "build:fix": "fix-esm-import-path out/*.js",
+    "build:compile": "tsc",
+    "build:clean": "rm -rf out",
     "test": "jest --coverage",
     "lint": "eslint 'src/**/*.ts'",
     "fix-lint": "eslint 'src/**/*.ts' --fix",
@@ -17,7 +20,9 @@
     "url": "git+ssh://git@github.com/aneshodza/pushdown-automaton.git"
   },
   "keywords": [
-    "automata", "pushdown automata", "deterministic pushdown automata"
+    "automata",
+    "pushdown automata",
+    "deterministic pushdown automata"
   ],
   "files": [
     "out/**/*"
@@ -36,6 +41,7 @@
     "@typescript-eslint/parser": "^7.7.0",
     "eslint": "^8.57.0",
     "eslint-plugin-jsdoc": "^48.2.3",
+    "fix-esm-import-path": "^1.5.0",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
