@@ -22,6 +22,11 @@ test("Initializes the automata with a stack", () => {
   expect(automata.stack).toBeDefined();
 });
 
+test("Allows the initial stack character to be set", () => {
+  automata = new PushdownAutomaton("test", "default");
+  expect(automata.stack.stackValues).toStrictEqual(["default"]);
+});
+
 test("Takes in the correct input", () => {
   expect(automata.inputWord).toBe("test");
 });
