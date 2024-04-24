@@ -8,8 +8,8 @@ class Stack {
   /**
    * Constructs a stack instance with an initial symbol.
    */
-  constructor() {
-    this.stackValues = ["$"];
+  constructor(defaultValue: string = "$") {
+    this.stackValues = [defaultValue];
   }
 
   /**

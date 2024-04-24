@@ -9,6 +9,10 @@ test("Initializes the stack with a $", () => {
   expect(stack.stackValues).toEqual(["$"]);
 });
 
+test("Allows for a custom initial value", () => {
+  expect(new Stack("a").stackValues).toEqual(["a"]);
+});
+
 test("Pushes a value onto the stack", () => {
   stack.push("a");
   expect(stack.stackValues).toEqual(["$", "a"]);

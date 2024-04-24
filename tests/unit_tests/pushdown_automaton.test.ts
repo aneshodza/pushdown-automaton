@@ -162,4 +162,41 @@ test("Throws an exception if it finds two matching transitions", () => {
 test("Allows the user to define a default stack token", () => {
   let automata = new PushdownAutomaton("test", "default");
   expect(automata.stack.stackValues).toStrictEqual(["default"]);
-})
+});
+
+test("Allows creating an automaton without any input parameters", () => {
+  automata = new PushdownAutomaton();
+  expect(automata).toBeDefined();
+  expect(automata.inputWord).toBeUndefined();
+});
+
+test("run() throws if no input word is provided", () => {
+  automata = new PushdownAutomaton();
+  expect(() => automata.run()).toThrow("No input word provided");
+});
+
+test("Allow run() to overwrite the input word", () => {
+  automata.run("new word");
+  expect(automata.inputWord).toBe("ew word");
+});
+
+test("run() in sucession works", () => {
+  let transition5 = new Transition("", otherState, "e", ["d"]);
+  let transition2 = new Transition("e", oneState, "d", ["d"]);
+  let transition3 = new Transition("s", otherState, "d", ["d"]);
+  let transition4 = new Transition("t", oneState, "d", ["e"]);
+
+  otherState.addTransitionFunction(transition2);
+  oneState.addTransitionFunction(transition3);
+  otherState.addTransitionFunction(transition4);
+
+  oneState.addTransitionFunction(transition5);
+
+  automata.run();
+
+  expect(automata.run("test")).toStrictEqual({
+    reason: "Word accepted",
+    successful: true,
+    code: 0,
+  });
+});
