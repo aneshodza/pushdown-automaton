@@ -29,6 +29,7 @@ class PushdownAutomaton {
 
   /**
    * Runs the automaton until the input word is fully processed or a failure occurs.
+  * @param {string} inputWord - The input word to be processed by the automaton. If not provided, the input word must have been set previously.
    * @returns {TerminationMessage} An object describing the result of the execution.
    */
   run(inputWord: string|undefined = undefined): TerminationMessage {
