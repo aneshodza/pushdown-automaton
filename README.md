@@ -13,7 +13,7 @@ It only checks for these two things on the node it's currently on (while being i
 ---
 
 ## Usage
-**Important:** This just goes over creating an automaton using every configuration option. [Here](./tests/integration_tests/README.md) you can find real use-cases.
+**Important:** This just goes over creating an automaton using every configuration option. [Here](./tests/integration_tests/README.md) you can find real use-cases.  
 Creating a pushdown automaton involves following steps:
 1. Creating the automaton instance
 2. Creating all the states
@@ -27,8 +27,8 @@ import { PushdownAutomaton, State, TransitionFunction } from 'pushdown-automaton
 
 /*
  * 1. Instantiate the pushdown automaton with the input word
- * Provide a 2nd parameter to define the initial stack token.
- * Normally that's a dollar sign, but here I define it as %
+ *    Provide a 2nd parameter to define the initial stack token.
+ *    Normally that's a dollar sign, but here I define it as %
  */
 let automaton: PushdownAutomaton;
 automaton = new PushdownAutomaton("test", "%");
@@ -43,10 +43,10 @@ otherState = new State("q1");
 
 /* 
  * 3. Instantiate transitions
- * First parameter is the token to be consumed
- * The second parameter is the state where the transition leads to
- * The third parameter shows the token to be popped off the stack
- * The fourth parameter is an array of things that will be pushed onto the stack
+ *    First parameter is the token to be consumed
+ *    The second parameter is the state where the transition leads to
+ *    The third parameter shows the token to be popped off the stack
+ *    The fourth parameter is an array of things that will be pushed onto the stack
  */
 let transitionFunction: Transition;
 transitionFunction = new Transition("t", otherState, "$", ["c", "d"]);
@@ -75,6 +75,12 @@ const someFunction = (automaton) => {
     // Do some stuff here
 }
 pushdownAutomaton.addOperation(someFunction);
+
+/*
+ * 8. Now you can re-run it. But make sure to add a new word, as
+ *    the old one was consumed by the automaton
+ */ 
+pushdownAutomaton.run("some new word");
 ```
 
 #### Return values of `run()`
