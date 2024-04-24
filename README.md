@@ -66,6 +66,14 @@ automaton.addEndState(otherState);
  */
 let successful: boolean;
 successful = automaton.run();
+
+/*
+ * 7. In case you want a function to run after every state change
+ */
+const someFunction = (automaton) => {
+    // Do some stuff here
+}
+pushdownAutomaton.addOperation(someFunction);
 ```
 
 #### Return values of `run()`
