@@ -7,37 +7,47 @@ import TerminationMessage from "./TerminationMessage";
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class PushdownAutomaton {
-  stack: Stack = new Stack();
+  stack: Stack;
   startState: State | null = null;
   endStates: Array<State> = [];
 
   currentState: State | null = null;
-  inputWord: string = "";
+  inputWord: string | undefined;
+  defaultStackTocken: string = "$";
   operation: ((automata: PushdownAutomaton) => void) | null = null;
 
   /**
    * Creates an instance of `PushdownAutomaton`.
    * @param {string} inputWord - The input word to be processed by the automaton.
+   * @param {string} defaultStackTocken - The default token to be used as the initial value of the stack.
    */
-  constructor(inputWord: string, defaultStackTocken: string = "$") {
+  constructor(inputWord: string|undefined = undefined, defaultStackTocken: string = "$") {
     this.inputWord = inputWord;
-    this.stack.pop();
-    this.stack.push(defaultStackTocken);
+    this.defaultStackTocken = defaultStackTocken;
+    this.stack = new Stack(defaultStackTocken);
   }
 
   /**
    * Runs the automaton until the input word is fully processed or a failure occurs.
    * @returns {TerminationMessage} An object describing the result of the execution.
    */
-  run(): TerminationMessage {
+  run(inputWord: string|undefined = undefined): TerminationMessage {
+    if (inputWord !== undefined) {
+      this.inputWord = inputWord;
+    } else if (this.inputWord === undefined) {
+      throw new Error("No input word provided");
+    }
+
+    this.currentState = this.startState;
+    this.stack = new Stack(this.defaultStackTocken);
+
     while (this.inputWord.length > 0) {
       const returnValue = this.step();
 
+      this.operation?.call(this, this);
       if (!returnValue.successful) {
         return returnValue;
       }
-
-      this.operation?.call(this, this);
     }
 
     if (this.endStates.includes(this.currentState!)) {
@@ -59,8 +69,8 @@ class PushdownAutomaton {
    * @returns {TerminationMessage} An object detailing the outcome of the step.
    */
   step(): TerminationMessage {
-    const currentToken = this.inputWord.charAt(0);
-    this.inputWord = this.inputWord.slice(1);
+    const currentToken = this.inputWord!.charAt(0);
+    this.inputWord = this.inputWord!.slice(1);
 
     if (
       this.currentState!.allTransitionFunctions(currentToken, this.stack.last())
@@ -138,7 +148,7 @@ class PushdownAutomaton {
       `Current node: ${this.currentState!.name} \n\n` +
       `Stack: \n` +
       `${this.stack.stackClone().reverse().join("\n")}\n\n` +
-      `Ugly stack [${this.stack.stackClone().reverse().join(", ")}]`,
+      `Ugly stack [${this.stack.stackClone().join(", ")}]`,
     );
   }
 

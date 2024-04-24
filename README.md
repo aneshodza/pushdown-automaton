@@ -13,6 +13,7 @@ It only checks for these two things on the node it's currently on (while being i
 ---
 
 ## Usage
+**Important:** This just goes over creating an automaton using every configuration option. [Here](./tests/integration_tests/README.md) you can find real use-cases.
 Creating a pushdown automaton involves following steps:
 1. Creating the automaton instance
 2. Creating all the states
@@ -93,6 +94,7 @@ It holds a message, if it was sucessful and the return code. Following codes are
 |1         |The automaton didn't terminate in a valid end state                   |
 |2         |The automaton didn't find a valid transition, so went to a sink state |
 |Exception |The automaton isn't deterministic                                     |
+|Exception |The input word is undefined                                           |
 
 
 ## Other links
@@ -102,4 +104,4 @@ It holds a message, if it was sucessful and the return code. Following codes are
 - [Feature requests](./docs/FEATURE_REQUESTS.md)
 
 #### Credits
-This library was written and published by [Anes Hodza](aneshodza.ch)
+This library was written and published by [Anes Hodza](https://aneshodza.ch)
