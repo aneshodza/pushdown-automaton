@@ -44,11 +44,10 @@ class PushdownAutomaton {
     while (this.inputWord.length > 0) {
       const returnValue = this.step();
 
+      this.operation?.call(this, this);
       if (!returnValue.successful) {
         return returnValue;
       }
-
-      this.operation?.call(this, this);
     }
 
     if (this.endStates.includes(this.currentState!)) {
@@ -149,7 +148,7 @@ class PushdownAutomaton {
       `Current node: ${this.currentState!.name} \n\n` +
       `Stack: \n` +
       `${this.stack.stackClone().reverse().join("\n")}\n\n` +
-      `Ugly stack [${this.stack.stackClone().reverse().join(", ")}]`,
+      `Ugly stack [${this.stack.stackClone().join(", ")}]`,
     );
   }
 

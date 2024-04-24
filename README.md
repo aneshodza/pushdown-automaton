@@ -93,6 +93,7 @@ It holds a message, if it was sucessful and the return code. Following codes are
 |1         |The automaton didn't terminate in a valid end state                   |
 |2         |The automaton didn't find a valid transition, so went to a sink state |
 |Exception |The automaton isn't deterministic                                     |
+|Exception |The input word is undefined                                           |
 
 
 ## Other links
