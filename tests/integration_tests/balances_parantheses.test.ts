@@ -37,16 +37,28 @@ beforeEach(() => {
 
 test("Balanced parentheses", () => {
   let result = automaton.run("(()())");
-
   expect(result.successful).toBe(true);
+
+  let result2 = automaton.run("()()()");
+  expect(result2.successful).toBe(true);
+
+  let result3 = automaton.run("((()))");
+  expect(result3.successful).toBe(true);
+
+  let result4 = automaton.run("()(()())");
+  expect(result4.successful).toBe(true);
 });
 
 test("Unbalanced parentheses", () => {
   let result = automaton.run("(()()");
   expect(result.successful).toBe(false);
-});
 
-test("When starting with a bad character", () => {
-  let result = automaton.run(")()()");
-  expect(result.successful).toBe(false);
+  let result2 = automaton.run("())");
+  expect(result2.successful).toBe(false);
+
+  let result3 = automaton.run("((())");
+  expect(result3.successful).toBe(false);
+
+  let result4 = automaton.run(")()()");
+  expect(result4.successful).toBe(false);
 });
