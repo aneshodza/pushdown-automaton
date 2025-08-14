@@ -42,6 +42,14 @@ class PushdownAutomaton {
     this.currentState = this.startState;
     this.stack = new Stack(this.defaultStackTocken);
 
+    // Process initial epsilon transitions for empty input
+    if (this.inputWord.length === 0) {
+      const epsilonResult = this.processEpsilonTransitions();
+      if (!epsilonResult.successful) {
+        return epsilonResult;
+      }
+    }
+
     while (this.inputWord.length > 0) {
       const returnValue = this.step();
 
@@ -49,6 +57,12 @@ class PushdownAutomaton {
       if (!returnValue.successful) {
         return returnValue;
       }
+    }
+
+    // Process any remaining epsilon transitions after input is consumed
+    const finalEpsilonResult = this.processEpsilonTransitions();
+    if (!finalEpsilonResult.successful) {
+      return finalEpsilonResult;
     }
 
     if (this.endStates.includes(this.currentState!)) {
@@ -66,12 +80,65 @@ class PushdownAutomaton {
   }
 
   /**
+   * Processes epsilon transitions until no more are available
+   * @returns {TerminationMessage} Result of epsilon transition processing
+   */
+  private processEpsilonTransitions(): TerminationMessage {
+    let processedTransitions = 0;
+    const maxTransitions = 100; // Prevent infinite loops
+
+    while (processedTransitions < maxTransitions) {
+      // Check if stack is empty - if so, no more epsilon transitions possible
+      if (this.stack.stackClone().length === 0) {
+        return {
+          reason: "Stack is empty - no more epsilon transitions",
+          successful: true,
+          code: 0,
+        };
+      }
+
+      const epsilonTransition = this.currentState!.findEpsilonTransition(
+        this.stack.last()
+      );
+
+      if (epsilonTransition === undefined) {
+        // No more epsilon transitions available
+        return {
+          reason: "No more epsilon transitions",
+          successful: true,
+          code: 0,
+        };
+      }
+
+      // Check for determinism
+      if (this.currentState!.allEpsilonTransitionFunctions().length > 1) {
+        throw new Error("This is not a deterministic pushdown automata!");
+      }
+
+      epsilonTransition.transition(this.stack, "");
+      this.currentState = epsilonTransition.nextState;
+      processedTransitions++;
+    }
+
+    throw new Error("Too many epsilon transitions - possible infinite loop");
+  }
+
+  /**
    * Executes a single step of the automaton using the current input character and stack state.
    * @returns {TerminationMessage} An object detailing the outcome of the step.
    */
   step(): TerminationMessage {
     const currentToken = this.inputWord!.charAt(0);
     this.inputWord = this.inputWord!.slice(1);
+
+    // Check if stack is empty - if so, can't process transitions that require stack access
+    if (this.stack.stackClone().length === 0) {
+      return {
+        reason: "Stack is empty - no transitions possible",
+        successful: false,
+        code: 2,
+      };
+    }
 
     if (
       this.currentState!.allTransitionFunctions(currentToken, this.stack.last())
@@ -95,6 +162,15 @@ class PushdownAutomaton {
 
     transition.transition(this.stack, currentToken);
     this.currentState = transition.nextState;
+
+    // Check if stack is empty after transition - if so, no epsilon transitions possible
+    if (this.stack.stackClone().length === 0) {
+      return {
+        reason: "Stack is empty after transition",
+        successful: true,
+        code: 0,
+      };
+    }
 
     const epsilonTransition = this.currentState!
       .findEpsilonTransition(
@@ -159,6 +235,66 @@ class PushdownAutomaton {
    */
   addOperation(operation: (automata: PushdownAutomaton) => void) {
     this.operation = operation;
+  }
+
+  /**
+   * Creates a PushdownAutomaton from a text-based mathematical definition
+   * @param {string} definition - Text definition of the PDA using mathematical notation
+   * @returns {PushdownAutomaton} A fully configured PushdownAutomaton instance
+   * @example
+   * ```
+   * const definition = `
+   *   States: q0, q1, q2
+   *   Start State: q0
+   *   Final States: q2
+   *   Initial Stack Symbol: $
+   *   δ(q0, a, $) = (q1, X$)
+   *   δ(q1, b, X) = (q2, ε)
+   * `;
+   * const automaton = PushdownAutomaton.fromDefinition(definition);
+   * ```
+   */
+  static fromDefinition(definition: string): PushdownAutomaton {
+    // Import PDAParser dynamically to avoid circular dependency
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const PDAParser = require('./PDAParser').default;
+    return PDAParser.parse(definition);
+  }
+
+  /**
+   * Creates a PushdownAutomaton from a simple configuration object
+   * @param {object} config - Simple configuration object
+   * @returns {PushdownAutomaton} A fully configured PushdownAutomaton instance
+   * @example
+   * ```
+   * const automaton = PushdownAutomaton.fromSimpleConfig({
+   *   states: ['q0', 'q1', 'q2'],
+   *   startState: 'q0',
+   *   finalStates: ['q2'],
+   *   transitions: [
+   *     { from: 'q0', input: 'a', stackPop: '$', to: 'q1', stackPush: 'X$' },
+   *     { from: 'q1', input: 'b', stackPop: 'X', to: 'q2', stackPush: '' }
+   *   ]
+   * });
+   * ```
+   */
+  static fromSimpleConfig(config: {
+    states: string[],
+    startState: string,
+    finalStates: string[],
+    initialStackSymbol?: string,
+    transitions: {
+      from: string,
+      input: string,
+      stackPop: string,
+      to: string,
+      stackPush: string | string[]
+    }[]
+  }): PushdownAutomaton {
+    // Import PDAParser dynamically to avoid circular dependency
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const PDAParser = require('./PDAParser').default;
+    return PDAParser.fromSimpleConfig(config);
   }
 }
 
